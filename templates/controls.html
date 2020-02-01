@@ -1,0 +1,102 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+ 
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    
+    <script src="{{ url_for('static', filename='joystick.js')}}"></script>
+    <script src="{{ url_for('static', filename='cursor.js')}}"></script>
+    
+    <script>M.AutoInit();</script>
+
+
+    <title>Control page</title>
+</head>
+<body class="container">
+
+
+<a href="/" class="btn-flat">back to main page</a>
+<div class="divider"></div>
+
+
+<section class="mouse-move">
+
+<div id="joystick"></div>
+    
+
+
+
+<div class="g5">
+
+    <div class="input-field">
+        <input placeholder="" id="X_position" type="text" class="validate">
+        <label for="X_position">X_position</label>
+    </div>
+
+    <div class="input-field">
+        <input placeholder="" id="Y_position" type="text" class="validate">
+        <label for="Y_position">Y_position</label>
+    </div>
+
+    <div class="input-field">
+        <input placeholder="" id="Direction" type="text" class="validate">
+        <label for="Direction">Direction</label>
+    </div>
+
+
+    <div class="input-field">
+        <input placeholder="" id="X" type="text" class="validate">
+        <label for="X">X</label>
+    </div>
+
+    <div class="input-field">
+        <input placeholder="" id="Y" type="text" class="validate">
+        <label for="Y">Y</label>
+    </div>
+
+</div>
+
+
+<script>
+
+// Create JoyStick object into the DIV 'joyDiv'
+var joy = new JoyStick('joystick');
+
+var inputPosX = document.getElementById("X_position");
+var inputPosY = document.getElementById("Y_position");
+var direzione = document.getElementById("Direction");
+var x = document.getElementById("X");
+var y = document.getElementById("Y");
+
+setInterval(function(){ inputPosX.value=joy.GetPosX(); }, 50);
+setInterval(function(){ inputPosY.value=joy.GetPosY(); }, 50);
+setInterval(function(){ direzione.value=joy.GetDir(); }, 50);
+setInterval(function(){ x.value=joy.GetX(); }, 50);
+setInterval(function(){ y.value=joy.GetY(); }, 50);
+
+
+</script>
+
+</section>
+
+<section class="mouse-clicks">
+
+</section>
+
+<section class="type">
+</section>
+
+
+
+
+
+</body>
+</html>
