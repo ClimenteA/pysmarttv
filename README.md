@@ -1,7 +1,7 @@
 # pysmarttv
 Control the laptop from the phone using python 
 
-Install the requirements : `flask, waitress, flaskwebgui, selenium` (get the chrome driver for selenium also)
+Install the requirements : `flask, waitress, flaskwebgui, pyrobogui, selenium` (get the chrome driver for selenium also)
 
 Run the server `python pysmarttv.py` and connect to the ip suggested:
 
