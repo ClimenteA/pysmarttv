@@ -1,10 +1,20 @@
-from flask import Flask, render_template
+from flask import (
+            Flask, 
+            render_template, 
+            request, 
+            jsonify
+        )
+
+from waitress import serve
+
+
 from flaskwebgui import FlaskUI
 
 import os, json, pickle, socket
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from pyrobogui import robo
+from pyrobogui import robo, pag
+import Xlib.threaded
 
 
 def write_pickle(data, filepath):
@@ -83,6 +93,9 @@ websites = {
 app = Flask(__name__)
 
 
+B = None 
+
+
 @app.route("/")
 def home_server():
     ip = get_server_ip()
@@ -99,14 +112,81 @@ def home_server():
 
 @app.route("/youtube")
 def open_youtube():
-    #b = webdriver.Chrome("./chromedriver")
-    #b.get(websites["youtube"])
+    options = webdriver.ChromeOptions()
+    options.add_argument("--start-maximized")
+    B = webdriver.Chrome("./chromedriver", options=options)
+    B.get(websites["youtube"])
     return render_template("controls.html")
 
 
 
+@app.route("/search-youtube", methods=["GET", "POST"])
+def search_youtube():
+    robo.press("/")
+    robo.press("ctrl, a")
+    robo.press("delete")
+    text = request.form["search"]
+    robo.write(text)
+    robo.press("enter")
+    return render_template("controls.html")
+
+@app.route("/scroll-down")
+def scroll_down():
+    robo.scrollDown(5)
+    return render_template("controls.html")
+
+@app.route("/scroll-up")
+def scroll_up():
+    robo.scrollUp(5)
+    return render_template("controls.html")
+
+@app.route("/left-click")
+def left_click():
+    x, y = pag.position()
+    robo.click(x=x, y=y)
+    return render_template("controls.html")
+
+@app.route("/double-click")
+def double_click():
+    x, y = pag.position()
+    robo.doubleClick(x=x, y=y)
+    return render_template("controls.html")
+
+@app.route("/fullscreen")
+def fullscreen():
+    robo.press("f")
+    return render_template("controls.html")
+
+@app.route("/fullscreen-exit")
+def fullscreen_exit():
+    robo.press("esc")
+    return render_template("controls.html")
+
+@app.route("/space-bar")
+def space_bar():
+    robo.press("space")
+    return render_template("controls.html")
+
+
+@app.route("/move-cursor/<direction>")
+def move_cursor(direction):
+    x, y = pag.position()
+    if direction == "N":        
+        robo.hover(x=x, y=y-20)
+    if direction == "S":        
+        robo.hover(x=x, y=y+20)
+    if direction == "W":        
+        robo.hover(x=x-20, y=y)
+    if direction == "E":        
+        robo.hover(x=x+20, y=y)
+
+    return jsonify({"status": 200})
+
 
 if __name__ == "__main__":
     #app.run(debug=True, threaded=True)
-    FlaskUI(app, width=400, height=230).run()
+    def serve_flask():
+        serve(app, host='0.0.0.0', port=5000)
+
+    FlaskUI(server=serve_flask, width=400, height=230, host="0.0.0.0").run()
     

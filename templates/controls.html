@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
     
     <script src="{{ url_for('static', filename='joystick.js')}}"></script>
     <script src="{{ url_for('static', filename='cursor.js')}}"></script>
-    
+  
     <script>M.AutoInit();</script>
 
 
@@ -29,11 +31,20 @@
 
 <section class="mouse-move">
 
+
+<form action="/search-youtube" method="POST">
+    <div class="input-field">
+        <input placeholder="" id="search" type="text" name="search" class="validate">
+        <label for="search">Search</label>
+    </div>
+    <button class="btn width-100" type=submit>Search</button>
+</form>
+
+<div style="margin-bottom:30px;"></div>
+
+
 <div id="joystick"></div>
     
-
-
-
 <div class="g5">
 
     <div class="input-field">
@@ -82,16 +93,55 @@ setInterval(function(){ direzione.value=joy.GetDir(); }, 50);
 setInterval(function(){ x.value=joy.GetX(); }, 50);
 setInterval(function(){ y.value=joy.GetY(); }, 50);
 
+setInterval(function(){ 
+    var direction = joy.GetDir();
+    if (direction != "C"){
+
+        fetch(`/move-cursor/${direction}`)
+        .then((response) => {
+            if (response.status == 200){
+                console.log("mouse moved in direction: ", direction);
+            }
+        });
+    }
+
+}, 20);
+
+
 
 </script>
 
+
+<div style="margin-bottom:30px;"></div>
+
+
+<div class="g2">
+    <a href="/scroll-up" class="btn"> <i class="material-icons">expand_less</i> <i class="material-icons">mouse</i> </a>
+    <a href="/scroll-down" class="btn"> <i class="material-icons">expand_more</i> <i class="material-icons">mouse</i> </a>
+</div>
+  
+
 </section>
+
 
 <section class="mouse-clicks">
 
-</section>
+<div class="g2">
 
-<section class="type">
+    <a class="btn" href="/left-click"> x1 <i class="material-icons">mouse</i> </a>
+    <a class="btn" href="/double-click"> x2 <i class="material-icons">mouse</i> </a>
+    
+    <a class="btn" href="/fullscreen"> <i class="large material-icons">fullscreen</i> </a>
+    <a class="btn" href="/fullscreen-exit"> <i class="large material-icons">fullscreen_exit</i> </a>
+
+</div>
+
+<div class="mb-10"></div>
+
+<div class="g1">
+    <a class="btn width-100" href="/space-bar"> <i class="large material-icons">space_bar</i> </a>
+</div>
+
 </section>
 
 

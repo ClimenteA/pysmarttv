@@ -1,15 +1,44 @@
+* {
+    user-select: none !important;
+}
 
 #joystick {
     display: block;
-    height: 150px;
-    width: 100%;
     border: 1px solid whitesmoke;
+    width:200px;
+    height:200px;
+    margin: 0 auto;
 }
 
 .g5 {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 1em;
+}
+
+.g2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.g3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+
+section {
+    margin-bottom: 15px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.width-100 {
+    width: 100% !important;
 }
 
 /* Start Cursor styles  */
