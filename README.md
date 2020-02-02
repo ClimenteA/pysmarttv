@@ -24,3 +24,6 @@ Bellow is the control page which has a few sections
 
 ![Client](client.png)
 
+
+#It seems Flask can't handle the level of requests needed to control the mouse even with waitress as application server..
+
